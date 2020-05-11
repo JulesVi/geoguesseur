@@ -1,0 +1,7 @@
+{
+  "name": "geoPortail",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
