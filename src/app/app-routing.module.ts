@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'clic-location',
+    loadChildren: () => import('./clic-location/clic-location.module').then( m => m.ClicLocationPageModule)
+  },
 ];
 
 @NgModule({

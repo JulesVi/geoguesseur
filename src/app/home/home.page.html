@@ -14,7 +14,13 @@
   </ion-header>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <strong>Play ?</strong>
+    <p><a rel="noopener noreferrer" href="/clic-location">TROUVER</a></p>
   </div>
+
+  <ion-item style="cursor: pointer;margin-top:100px;" (click)="onpickupClick()">
+    <ion-icon slot="start" name="locate"></ion-icon>
+    <ion-label position="stacked">Pickup Location</ion-label>
+     <ion-textarea  style="margin-top:20px;" >{{pickupLocation}}</ion-textarea>
+  </ion-item>
 </ion-content>
