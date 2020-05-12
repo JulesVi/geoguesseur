@@ -15,6 +15,14 @@ const routes: Routes = [
     path: 'clic-location',
     loadChildren: () => import('./clic-location/clic-location.module').then( m => m.ClicLocationPageModule)
   },
+  {
+    path: 'image',
+    loadChildren: () => import('./image/image.module').then( m => m.ImagePageModule)
+  },
+  {
+    path: 'resultat',
+    loadChildren: () => import('./resultat/resultat.module').then( m => m.ResultatPageModule)
+  },
 ];
 
 @NgModule({
