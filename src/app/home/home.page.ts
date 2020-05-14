@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,10 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor(public route: ActivatedRoute, public router: Router) {}
+
+  navigate(continent: string): void{
+    this.router.navigate(['/image'], {queryParams: {continent: continent}});
+  }
 
 }
