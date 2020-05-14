@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-image',
@@ -10,56 +10,83 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ImagePage implements OnInit {
 
-  private url: string = 'https://data.opendatasoft.com/api/records/1.0/search/?dataset=world-heritage-list%40public-us&rows=1&start=';
-  private endUrl: string = '&facet=category&facet=region&facet=states&refine.region=Europe+and+North+America';
+  private maxOffset: number = 0;
+  private startUrl: string = 'https://data.opendatasoft.com/api/records/1.0/search/?dataset=world-heritage-list%40public-us&rows=1&start=';
+  private endUrl: string = '&facet=category&facet=region&facet=states&refine.region=';
 
-  site: string;
-  id_number: string;
-  coordinates: string[];
+  private site: string;
+  private id_number: string;
+  private coordinates: string[];
+  private imageUrlTab: string[] = [];
 
-  continent: string;
-
-  constructor(private readonly http: HttpClient, public route: ActivatedRoute) { }
+  constructor(private readonly http: HttpClient, public route: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(data =>{
-      this.continent = data.continent;
-    });
+    this.route.queryParams.subscribe(params =>{
+      switch(params.continent) { 
+        case 'Europe+and+North+America': { 
+          this.maxOffset = 531;
+          break; 
+        }
+        case 'Asia+and+the+Pacific': { 
+          this.maxOffset = 266;
+          break; 
+        }
+        case 'Latin+America+and+the+Caribbean': { 
+          this.maxOffset = 142;
+          break; 
+        }
+        case 'Africa': { 
+          this.maxOffset = 96;
+          break; 
+        }
+        case 'Arab+States': { 
+          this.maxOffset = 86;
+          break; 
+        }
+        default: { 
+          this.router.navigate(['/home']);
+          break; 
+        } 
+      }
 
-    this.getImagesURLS();
-    this.getRandomLocation().subscribe(data=>{
-      // console.log(data.records);
-      this.site = data.records[0].fields.site
-      this.id_number = data.records[0].fields.id_number
-      this.coordinates = data.records[0].fields.coordinates
+      this.endUrl += params.continent;
+      
+      this.getRandomLocation().subscribe(data=>{
+        if(data.records[0]){
+          this.site = data.records[0].fields.site
+          this.id_number = data.records[0].fields.id_number
+          this.coordinates = data.records[0].fields.coordinates
+
+          this.getImagesURLS();
+        }
+      });
     });
   }
 
   getRandomLocation() : Observable<any> {
-    var id = Math.floor(Math.random() * Math.floor(531));
-    return this.http.get(`${this.url}${id}${this.endUrl}`);
+    this.startUrl += Math.floor(Math.random() * Math.floor(this.maxOffset));
+    return this.http.get(`${this.startUrl}${this.endUrl}`);
   }
 
   getImagesURLS() : any {
-    var xmlHttp = new XMLHttpRequest();
+    let xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = () =>{
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-        // this.callback(xmlHttp.responseText);
-        console.log(xmlHttp.responseText);
+        this.callback(xmlHttp.responseText);
     }
-    xmlHttp.open("GET", "https://whc.unesco.org/en/list/1478/gallery/&maxrows=20", true); // true for asynchronous
-    xmlHttp.setRequestHeader("Content-Type", "application/json");
-    xmlHttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    xmlHttp.send(null);
+    xmlHttp.open("GET", `https://whc.unesco.org/en/list/${this.id_number}/gallery/&maxrows=20`, true); // true for asynchronous
+    xmlHttp.send();
   }
 
-  // callback(data: any): void {
-  //   var el = document.createElement( 'html' );
-  //   el.innerHTML = data;
-  //   let imgs = el.getElementsByClassName('icaption-img');
-  //   for (let k = 0; k < imgs.length; k++) {
-  //       console.log(imgs[k].getAttribute('data-src'));
-  //   }
-  // }
+  callback(data: any): void {
+    var el = document.createElement( 'html' );
+    el.innerHTML = data;
+    let imgs = el.getElementsByClassName('icaption-img');
+    for (let k = 0; k < imgs.length; k++) {
+        // console.log(imgs[k].getAttribute('data-src'));
+        this.imageUrlTab.push("https://whc.unesco.org"+imgs[k].getAttribute('data-src'));
+    }
+  }
 
 }
