@@ -1,18 +1,26 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>image</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button name="exit"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Question 1 sur 4</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  {{continent}}
+  <ion-card *ngIf="coordinates">
+    <ion-card-header>
+      <ion-card-title> {{site}} </ion-card-title>
+      <ion-card-subtitle> {{coordinates[0]}}, {{coordinates[1]}} </ion-card-subtitle>
+    </ion-card-header>
 
-  <div id="container">
-    <strong>Trouvé ?</strong>
-    <p><a href="/clic-location">TROUVER</a></p>
-  </div>
+    <ion-card-content> ID: {{id_number}} </ion-card-content>
+  </ion-card>
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button href="/clic-location">
+      <ion-icon name="location-sharp"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
