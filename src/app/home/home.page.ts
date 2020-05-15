@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { MonServiceService } from '../mon-service.service';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +8,9 @@ import { MonServiceService } from '../mon-service.service';
 })
 export class HomePage {
 
-  constructor(public router: Router, private monService: MonServiceService) {}
+  constructor(public router: Router) {}
 
   navigate(continent: string): void{
-    this.monService.setOffset(-1);
     this.router.navigate(['/image'], {queryParams: {continent: continent}});
   }
 
