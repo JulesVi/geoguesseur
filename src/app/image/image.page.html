@@ -8,18 +8,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  {{continent}}
-  <ion-card *ngIf="coordinates">
-    <ion-card-header>
-      <ion-card-title> {{site}} </ion-card-title>
-      <ion-card-subtitle> {{coordinates[0]}}, {{coordinates[1]}} </ion-card-subtitle>
-    </ion-card-header>
-
-    <ion-card-content> ID: {{id_number}} </ion-card-content>
-  </ion-card>
+  <ion-spinner *ngIf="!imageUrlTab[0]" style="display:block; margin: auto; height: 100%;"></ion-spinner>
+  
+  <div style="text-align:center;">
+    <img *ngFor="let imgUrl of imageUrlTab" src={{imgUrl}} style="padding: 5px; border-radius: 5%; display:inline-block;"/>
+  </div>
 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button href="/clic-location">
+    <ion-fab-button (click)="navigate()">
       <ion-icon name="location-sharp"></ion-icon>
     </ion-fab-button>
   </ion-fab>

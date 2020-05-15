@@ -26,9 +26,23 @@
   text-decoration: none;
 }
 
-.background{
-  --background: url(../../assets/images/homeBG.jpg) no-repeat center center / cover;
+ion-slide{
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto 100%;
+
 }
+
+.euBG{ background-image: url(../../assets/images/homeBG.jpg); }
+
+.asiaBG{ background-image: url(../../assets/images/asiaBG.jpg); }
+
+.africaBG{ background-image: url(../../assets/images/africaBG.jpg); }
+
+.southAmericaBG{ background-image: url(../../assets/images/southAmericaBG.jpg); }
+
+.arabicBG{ background-image: url(../../assets/images/arabicBG.jpg); }
+
 
 .title{
   font-size: 3em;
