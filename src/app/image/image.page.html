@@ -18,10 +18,10 @@
   </ion-card> -->
 
   <ion-spinner *ngIf="!imageUrlTab[0]" style="display:block; margin: auto; height: 100%;"></ion-spinner>
-
-  <ion-card *ngFor="let imgUrl of imageUrlTab" mode="ios" style="max-width: 343px; max-height: 343px; margin-left: auto; margin-right: auto;">
-    <img src={{imgUrl}}/>
-  </ion-card>
+  
+  <div style="text-align:center;">
+    <img *ngFor="let imgUrl of imageUrlTab" src={{imgUrl}} style="padding: 5px; border-radius: 5%; display:inline-block;"/>
+  </div>
 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
     <ion-fab-button href="/clic-location">
