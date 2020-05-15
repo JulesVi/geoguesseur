@@ -8,6 +8,7 @@ import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 })
 export class ClicLocationPage implements OnInit {
     map: Map<any, any>;
+    newMarker: any;
 
     constructor() { }
 
@@ -19,14 +20,14 @@ export class ClicLocationPage implements OnInit {
 
     leafletMap() {
         // In setView add latLng and zoom
-        this.map = new Map('mapId').setView([28.644800, 77.216721], 10);
+        this.map = new Map('mapId').setView([45.19, 5.72], 10);
         tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'edupala.com © ionic LeafLet',
         }).addTo(this.map);
 
 
-        marker([28.6, 77]).addTo(this.map)
-            .bindPopup('Ionic 4 <br> Leaflet.')
+        marker([45.19, 5.72]).addTo(this.map)
+            .bindPopup('Grenoble')
             .openPopup();
     }
 
