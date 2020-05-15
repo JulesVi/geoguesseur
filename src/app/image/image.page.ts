@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MonServiceService } from '../mon-service.service';
 
 @Component({
   selector: 'app-image',
@@ -19,10 +20,11 @@ export class ImagePage implements OnInit {
   private coordinates: string[];
   private imageUrlTab: string[] = [];
 
-  constructor(private readonly http: HttpClient, public route: ActivatedRoute, public router: Router) { }
+  constructor(private readonly http: HttpClient, public route: ActivatedRoute, public router: Router, private monService: MonServiceService) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params =>{
+      console.log(this.monService.getOffset());
       switch(params.continent) { 
         case 'Europe+and+North+America': { 
           this.maxOffset = 531;
@@ -65,7 +67,11 @@ export class ImagePage implements OnInit {
   }
 
   getRandomLocation() : Observable<any> {
-    this.startUrl += Math.floor(Math.random() * Math.floor(this.maxOffset));
+    if(this.monService.getOffset() === -1){
+      this.monService.setOffset(Math.floor(Math.random() * Math.floor(this.maxOffset)));
+      console.log(this.monService.getOffset());
+    }
+    this.startUrl += this.monService.getOffset();
     return this.http.get(`${this.startUrl}${this.endUrl}`);
   }
 
@@ -87,6 +93,10 @@ export class ImagePage implements OnInit {
         // console.log(imgs[k].getAttribute('data-src'));
         this.imageUrlTab.push("https://whc.unesco.org"+imgs[k].getAttribute('data-src'));
     }
+  }
+
+  navigate(): void{
+    this.router.navigate(['/clic-location'], {queryParams: {coordinates: this.coordinates, site: this.site}});
   }
 
 }
