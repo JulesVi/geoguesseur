@@ -85,7 +85,8 @@ export class ImagePage implements OnInit {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
         this.callback(xmlHttp.responseText);
     }
-    xmlHttp.open("GET", `https://whc.unesco.org/en/list/${this.id_number}/gallery/&maxrows=20`, true); // true for asynchronous
+    xmlHttp.open("GET", `https://cors-anywhere.herokuapp.com/https://whc.unesco.org/en/list/${this.id_number}/gallery/&maxrows=20`, true);
+    xmlHttp.setRequestHeader('X-Requested-With', '');
     xmlHttp.send();
   }
 
@@ -94,7 +95,7 @@ export class ImagePage implements OnInit {
     el.innerHTML = data;
     let imgs = el.getElementsByClassName('icaption-img');
     for (let k = 0; k < imgs.length; k++) {
-        this.imageUrlTab.push("https://whc.unesco.org"+imgs[k].getAttribute('data-src'));
+      this.imageUrlTab.push("https://whc.unesco.org"+imgs[k].getAttribute('data-src'));
     }
   }
 
