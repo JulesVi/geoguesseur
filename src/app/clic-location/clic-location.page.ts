@@ -10,6 +10,8 @@ import { AlertController } from '@ionic/angular';
     styleUrls: ['./clic-location.page.scss'],
 })
 export class ClicLocationPage implements OnInit {
+    havePlayed: boolean = false; // quand le joueur a validé sa séléction, passe a true
+
     map: Map;
     newMarker: any;
     coordinates: number[];
@@ -92,11 +94,11 @@ export class ClicLocationPage implements OnInit {
                         cssClass: 'secondary',
                         handler: (res) => {
                             this.map.removeLayer(newMarker);
-                            console.log('annulé');
                         }
                     }, {
                         text: 'Go !',
-                        handler: () => {           
+                        handler: () => {
+                            this.havePlayed = true;
                             marker([lat, lng], { draggable: false }).addTo(this.map);
                             marker(this.coordinates, { icon: this.icon }, { draggable: false }).addTo(this.map);
                             L.polyline([[lat, lng], this.coordinates],
@@ -131,6 +133,12 @@ export class ClicLocationPage implements OnInit {
     /** Remove map when we have multiple map object */
     ionViewWillLeave() {
         this.map.remove();
+    }
+
+    next() {
+        console.log('je me deplace');
+        
+        this.router.navigate(['/image'], {queryParams: {continent: this.continent}});
     }
 
 }
