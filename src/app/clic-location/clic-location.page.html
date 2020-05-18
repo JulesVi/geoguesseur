@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar color="primary">
         <ion-buttons slot="start">
-            <ion-back-button name="exit"></ion-back-button>
+            <ion-back-button *ngIf="!havePlayed" name="exit"></ion-back-button>
         </ion-buttons>
         <ion-title>Localisation dans : {{continent}}</ion-title>
     </ion-toolbar>
@@ -17,9 +17,13 @@
     <div id="mapId" style="width: 100%; height: 100%">
     </div>
 
-    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-        <ion-fab-button href="/resultat">
-            <ion-icon name="checkmark-done"></ion-icon>
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed">        
+        <ion-fab-button (click)="next()" *ngIf="havePlayed">
+            <ion-icon name="arrow-forward-outline"></ion-icon>
         </ion-fab-button>
+
+        <!-- <ion-fab-button href="/resultat">
+            <ion-icon name="checkmark-done"></ion-icon>
+        </ion-fab-button> -->
     </ion-fab>
 </ion-content>
