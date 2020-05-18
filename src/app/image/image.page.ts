@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TurnService } from '../turn.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-image',
@@ -20,10 +21,12 @@ export class ImagePage implements OnInit {
 
   private site: string;
   private coordinates: string[];
+  private continent: string;
 
   private turn: number;
 
-  constructor(private readonly http: HttpClient, public route: ActivatedRoute, public router: Router, private turnService: TurnService) { }
+  constructor(private readonly http: HttpClient, public route: ActivatedRoute, 
+    public router: Router, private turnService: TurnService, public alertController: AlertController) { }
 
   ngOnInit() {
     this.turn = this.turnService.getTurn();
@@ -32,6 +35,7 @@ export class ImagePage implements OnInit {
 
       if(!this.imageUrlTab[0]){
 
+        this.continent = params.continent;
         switch(params.continent) { 
           case 'Europe+and+North+America': { 
             this.maxOffset = 531;
@@ -86,7 +90,6 @@ export class ImagePage implements OnInit {
         this.callback(xmlHttp.responseText);
     }
     xmlHttp.open("GET", `https://cors-anywhere.herokuapp.com/https://whc.unesco.org/en/list/${this.id_number}/gallery/&maxrows=20`, true);
-    xmlHttp.setRequestHeader('X-Requested-With', '');
     xmlHttp.send();
   }
 
@@ -100,7 +103,26 @@ export class ImagePage implements OnInit {
   }
 
   navigate(): void{
-    this.router.navigate(['/clic-location'], {queryParams: {coordinates: this.coordinates, site: this.site}});
+    this.router.navigate(['/clic-location'], {queryParams: {coordinates: this.coordinates, site: this.site, continent: this.continent}});
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Attention',
+      message: 'Etes vous sûr de vouloir quitter?',
+      buttons: [{
+          text: 'Annuler',
+          role: 'cancel',
+      }, {
+          text: 'Oui',
+          handler: () => {
+            this.imageUrlTab = [];
+            this.router.navigate(['/home']);
+          }
+      }]
+    });
+
+    await alert.present();
   }
 
 }
