@@ -20,6 +20,7 @@ export class ImagePage implements OnInit {
 
   private site: string;
   private coordinates: string[];
+  private continent: string;
 
   private turn: number;
 
@@ -32,6 +33,7 @@ export class ImagePage implements OnInit {
 
       if(!this.imageUrlTab[0]){
 
+        this.continent = params.continent;
         switch(params.continent) { 
           case 'Europe+and+North+America': { 
             this.maxOffset = 531;
@@ -100,7 +102,7 @@ export class ImagePage implements OnInit {
   }
 
   navigate(): void{
-    this.router.navigate(['/clic-location'], {queryParams: {coordinates: this.coordinates, site: this.site}});
+    this.router.navigate(['/clic-location'], {queryParams: {coordinates: this.coordinates, site: this.site, continent: this.continent}});
   }
 
 }
