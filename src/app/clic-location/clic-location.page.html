@@ -14,6 +14,10 @@
         </ion-toolbar>
     </ion-header>
 
+    <div *ngIf="havePlayed && resultat" class="resultatParent">
+        <div class="resultat">Vous avez trouvé a {{resultat}} km</div>
+    </div>
+
     <div id="mapId" style="width: 100%; height: 100%">
     </div>
 
