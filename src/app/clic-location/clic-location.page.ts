@@ -21,7 +21,27 @@ export class ClicLocationPage implements OnInit {
     continent: string;
     resultat: number;
 
-    markerHtmlStyles = `
+    // utile pour que les marqueurs soient ok sur iphone, android et pc
+    guessHtmlStyles = `
+        background-color: gray;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: block;
+        left: -1.5rem;
+        top: -1.5rem;
+        position: relative;
+        border-radius: 3rem 3rem 0;
+        transform: rotate(45deg);
+        border: 1px solid #FFFFFF`;
+    guess = L.divIcon({
+        className: "customMarker",
+        iconAnchor: [0, 24],
+        labelAnchor: [-6, 0],
+        popupAnchor: [0, -36],
+        html: `<span style="${this.guessHtmlStyles}" />`
+    });
+
+    findHtmlStyles = `
         background-color: green;
         width: 2.5rem;
         height: 2.5rem;
@@ -32,13 +52,13 @@ export class ClicLocationPage implements OnInit {
         border-radius: 3rem 3rem 0;
         transform: rotate(45deg);
         border: 1px solid #FFFFFF`;
-    icon = L.divIcon({
+    find = L.divIcon({
         className: "customMarker",
         iconAnchor: [0, 24],
         labelAnchor: [-6, 0],
         popupAnchor: [0, -36],
-        html: `<span style="${this.markerHtmlStyles}" />`
-    })
+        html: `<span style="${this.findHtmlStyles}" />`
+    });
 
     constructor(public route: ActivatedRoute, public alertController: AlertController, public router: Router,  private turnService: TurnService) { }
 
@@ -83,7 +103,7 @@ export class ClicLocationPage implements OnInit {
             let lat = e.latlng.lat; // lattitude
             let lng = e.latlng.lng; // longitude
 
-            let newMarker = marker([lat, lng], { draggable: false }).addTo(this.map);
+            let newMarker = marker([lat, lng], { icon: this.guess }, { draggable: false }).addTo(this.map);
 
             const alert = await this.alertController.create({
                 header: 'Attention !',
@@ -100,8 +120,8 @@ export class ClicLocationPage implements OnInit {
                         text: 'Go !',
                         handler: () => {
                             this.havePlayed = true;
-                            marker([lat, lng], { draggable: false }).addTo(this.map);
-                            marker(this.coordinates, { icon: this.icon }, { draggable: false }).addTo(this.map);
+                            marker([lat, lng], { icon: this.guess }, { draggable: false }).addTo(this.map);
+                            marker(this.coordinates, { icon: this.find }, { draggable: false }).addTo(this.map);
                             L.polyline([[lat, lng], this.coordinates],
                                 {
                                     weight: 10,
@@ -110,6 +130,7 @@ export class ClicLocationPage implements OnInit {
                                     lineJoin: 'round'
                                 }).addTo(this.map);
                                 this.resultat = Math.floor(Number(L.latLng(this.coordinates).distanceTo(L.latLng(lat,lng)))/1000)/1;
+                                this.turnService.incrementDistance(this.resultat);
                                 
                             this.map.removeEventListener('click');
                         }
@@ -126,9 +147,6 @@ export class ClicLocationPage implements OnInit {
         tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'edupala.com © ionic LeafLet',
         }).addTo(this.map);
-
-
-        // marker([45.19, 5.72]).addTo(this.map);
     }
 
     /** Remove map when we have multiple map object */
