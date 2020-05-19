@@ -1,9 +1,14 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>resultat</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="background">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Somme totale des kilomètres</ion-card-subtitle>
+      <ion-card-title>{{sommeKM}} km</ion-card-title>
+    </ion-card-header>
+  </ion-card>
 
-<ion-content [fullscreen]="true">
-
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button (click)="navigate()">
+      <ion-icon name="home"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
