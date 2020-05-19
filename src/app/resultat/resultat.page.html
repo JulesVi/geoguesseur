@@ -1,10 +1,12 @@
 <ion-content [fullscreen]="true" class="background">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-subtitle>Somme totale des kilomètres</ion-card-subtitle>
-      <ion-card-title>{{sommeKM}} km</ion-card-title>
-    </ion-card-header>
-  </ion-card>
+  <div style="display:flex;justify-content:center;align-items:center;height: 100%;">
+    <ion-card style="display:inline-block; text-align: center; border-radius: 10px;">
+      <ion-card-header>
+        <ion-card-subtitle>Somme totale des kilomètres</ion-card-subtitle>
+        <ion-card-title>{{sommeKM}} km</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </div>
 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
     <ion-fab-button (click)="navigate()">
