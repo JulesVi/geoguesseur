@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-resultat',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResultatPage implements OnInit {
 
-  constructor() { }
+  private sommeKM: number = 0;
+
+  constructor(public router: Router) { }
 
   ngOnInit() {
   }
 
+  navigate(continent: string): void{
+    this.router.navigate(['/home']);
+  }
 }
