@@ -3,6 +3,7 @@ import { Map, tileLayer, marker, LeafIcon } from 'leaflet';
 import * as L from 'leaflet';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { TurnService } from '../turn.service';
 
 @Component({
     selector: 'app-clic-location',
@@ -39,7 +40,7 @@ export class ClicLocationPage implements OnInit {
         html: `<span style="${this.markerHtmlStyles}" />`
     })
 
-    constructor(public route: ActivatedRoute, public alertController: AlertController, public router: Router) { }
+    constructor(public route: ActivatedRoute, public alertController: AlertController, public router: Router,  private turnService: TurnService) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -136,9 +137,12 @@ export class ClicLocationPage implements OnInit {
     }
 
     next() {
-        console.log('je me deplace');
-        
-        this.router.navigate(['/image'], {queryParams: {continent: this.continent}});
+        if(this.turnService.getTurn() === 4){
+            this.router.navigate(['/resultat']);
+        }else{
+            this.turnService.incrementTurn();
+            this.router.navigate(['/image'], {queryParams: {continent: this.continent}});
+        }
     }
 
 }
