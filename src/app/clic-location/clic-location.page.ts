@@ -109,7 +109,7 @@ export class ClicLocationPage implements OnInit {
                                     dashArray: '20,15',
                                     lineJoin: 'round'
                                 }).addTo(this.map);
-                                this.resultat = Number(L.latLng(this.coordinates).distanceTo(L.latLng(lat,lng)))/1000;
+                                this.resultat = Math.floor(Number(L.latLng(this.coordinates).distanceTo(L.latLng(lat,lng)))/1000)/1;
                                 
                             this.map.removeEventListener('click');
                         }
@@ -137,6 +137,8 @@ export class ClicLocationPage implements OnInit {
     }
 
     next() {
+        this.resultat = null;
+
         if(this.turnService.getTurn() === 4){
             this.router.navigate(['/resultat']);
         }else{
