@@ -29,13 +29,15 @@ export class ImagePage implements OnInit {
     public router: Router, private turnService: TurnService, public alertController: AlertController) { }
 
   ngOnInit() {
-    this.turn = this.turnService.getTurn();
     
     this.route.queryParams.subscribe(params =>{
-
-      if(!this.imageUrlTab[0]){
-
+      
+      if(!this.imageUrlTab[0] || this.turn !== this.turnService.getTurn()){
+        
+        this.imageUrlTab = [];
+        this.turn = this.turnService.getTurn();
         this.continent = params.continent;
+
         switch(params.continent) { 
           case 'Europe+and+North+America': { 
             this.maxOffset = 531;
@@ -62,7 +64,6 @@ export class ImagePage implements OnInit {
             break; 
           } 
         }
-        this.endUrl += params.continent;
         
         this.getRandomLocation().subscribe(data=>{
           if(data.records[0]){
@@ -79,8 +80,8 @@ export class ImagePage implements OnInit {
   }
 
   getRandomLocation() : Observable<any> {
-    this.startUrl += Math.floor(Math.random() * Math.floor(this.maxOffset));
-    return this.http.get(`${this.startUrl}${this.endUrl}`);
+    let offset = Math.floor(Math.random() * Math.floor(this.maxOffset));
+    return this.http.get(`${this.startUrl}${offset}${this.endUrl}${this.continent}`);
   }
 
   getImagesURLS() : any {
