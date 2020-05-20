@@ -14,11 +14,10 @@ export class TurnService {
 
   public getTurn(): number{ return this.turn }
 
-  public resetTurn(): void { this.turn = 1 }
 
   public incrementDistance(distance: number): void { this.totalDistance += distance}
 
   public getDistance(): number { return this.totalDistance}
 
-  public resetDistance(): void { this.totalDistance = 0 }
+  public resetService(): void { this.turn = 1; this.totalDistance = 0;}
 }

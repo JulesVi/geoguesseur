@@ -15,11 +15,10 @@ export class ResultatPage implements OnInit {
 
   ngOnInit() {
     this.sommeKM = this.turnService.getDistance();
-    this.turnService.resetTurn();
   }
 
   navigate(continent: string): void{
-    this.turnService.resetDistance();
+    this.turnService.resetService();
     this.router.navigate(['/home']);
   }
 }
