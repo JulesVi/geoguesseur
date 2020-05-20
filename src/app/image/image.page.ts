@@ -118,8 +118,7 @@ export class ImagePage implements OnInit {
           text: 'Oui',
           handler: () => {
             this.imageUrlTab = [];
-            this.turnService.resetTurn();
-            this.turnService.resetDistance();
+            this.turnService.resetService();
             this.router.navigate(['/home']);
           }
       }]
