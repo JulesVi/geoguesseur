@@ -154,7 +154,9 @@ export class ClicLocationPage implements OnInit {
             [84.953827, -179.353036],
             //north east
             [-84.667725, 177.696858]
-            ]}).setView(this.region, 4);
+            ],
+            minZoom: 3
+        }).setView(this.region, 4);
         tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'edupala.com © ionic LeafLet',
         }).addTo(this.map);
