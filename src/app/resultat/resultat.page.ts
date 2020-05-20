@@ -17,7 +17,6 @@ export class ResultatPage implements OnInit {
 
   ngOnInit() {
     this.sommeKM = this.turnService.getDistance();
-    this.turnService.resetService();
 
     this.storage.get('sommeKM').then((val) => {
       if(this.sommeKM !== 0 && this.sommeKM < val || this.sommeKM !== 0 && val === null){
