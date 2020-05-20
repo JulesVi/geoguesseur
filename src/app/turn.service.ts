@@ -14,7 +14,10 @@ export class TurnService {
 
   public getTurn(): number{ return this.turn }
 
+
   public incrementDistance(distance: number): void { this.totalDistance += distance}
 
   public getDistance(): number { return this.totalDistance}
+
+  public resetService(): void { this.turn = 1; this.totalDistance = 0;}
 }
