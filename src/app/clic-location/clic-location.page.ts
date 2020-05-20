@@ -110,14 +110,14 @@ export class ClicLocationPage implements OnInit {
                 message: '<strong>Etes vous sur de valider ce choix ?</strong>',
                 buttons: [
                     {
-                        text: 'NON',
+                        text: 'ANNULER',
                         role: 'cancel',
                         cssClass: 'secondary',
                         handler: (res) => {
                             this.map.removeLayer(newMarker);
                         }
                     }, {
-                        text: 'Go !',
+                        text: 'OUI !',
                         handler: () => {
                             this.havePlayed = true;
                             marker([lat, lng], { icon: this.guess }, { draggable: false }).addTo(this.map);
@@ -131,7 +131,13 @@ export class ClicLocationPage implements OnInit {
                                 }).addTo(this.map);
                                 this.resultat = Math.floor(Number(L.latLng(this.coordinates).distanceTo(L.latLng(lat,lng)))/1000)/1;
                                 this.turnService.incrementDistance(this.resultat);
-                                
+                            let one = [lat, lng];
+                            let two = this.coordinates;
+                            let bounds = L.latLngBounds(one, two)
+                            this.map.flyToBounds(bounds, 10, {
+                                animate: true,
+                                duration: 1
+                            });
                             this.map.removeEventListener('click');
                         }
                     }
