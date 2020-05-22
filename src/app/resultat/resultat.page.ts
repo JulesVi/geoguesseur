@@ -10,8 +10,8 @@ import { Storage } from '@ionic/storage';
 })
 export class ResultatPage implements OnInit {
 
-  private sommeKM: number = 0;
-  private record: number = 0;
+  sommeKM: number = 0;
+  record: number = 0;
 
   constructor(public router: Router, private turnService: TurnService, private storage: Storage) { }
 
@@ -28,7 +28,7 @@ export class ResultatPage implements OnInit {
     });
   }
 
-  navigate(continent: string): void{
+  navigate(): void{
     this.turnService.resetService();
     this.router.navigate(['/home']);
   }

@@ -17,13 +17,13 @@ export class ImagePage implements OnInit {
   private endUrl: string = '&facet=category&facet=region&facet=states&refine.region=';
 
   private id_number: string;
-  private imageUrlTab: string[] = [];
+  imageUrlTab: string[] = [];
 
   private site: string;
   private coordinates: string[];
   private continent: string;
 
-  private turn: number;
+  turn: number;
 
   constructor(private readonly http: HttpClient, public route: ActivatedRoute, 
     public router: Router, private turnService: TurnService, public alertController: AlertController) { }
